@@ -33,7 +33,7 @@ subprocess.run(["sudo" , "/opt/opennms/bin/install", "-dis"])
 subprocess.run(["sudo" , "systemctl", "enable" , "--now" , "opennms"])
 subprocess.run(["sudo" , "firewall-cmd", "--permanent" , "--add-port=8980/tcp"])
 subprocess.run(["sudo" , "systemctl", "reload" , "firewalld"])
-#subprocess.run(["sudo" , "reboot"])
+subprocess.run(["sudo" , "reboot"])
 
 
 
