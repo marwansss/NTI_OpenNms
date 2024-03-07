@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+#Install & Configure OpenNms Service
 import subprocess
 subprocess.run(["sudo", "dnf", "update", "-y"])
 
