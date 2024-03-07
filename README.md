@@ -1,13 +1,13 @@
 # OpenNMS automated download 
-### NTI-Task
 
 
-## We created a python script to automate the installation and configurations of OpenNMS Server 
+
+## We created a python script to automate the installation and configrations of OpenNMS Server 
 ### Note " that this script was created specifically for the CentOS version "
 
 \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
 
-## the first script will install pyenv and initialize it & the second one is to install OpecNMS 
+## the first script will install pyenv and initialize it & the second one is to install OpenNMS 
 
 \-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-
 
@@ -41,6 +41,7 @@
 
 ## Used modules       
    Subprocess module
+   OS module
    
    ## used Database
   PostgreSQL : Is a robust open-source relational database management system (RDBMS) known for its reliability, feature completeness, and adherence to SQL standards. 
