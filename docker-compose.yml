@@ -1,0 +1,54 @@
+version: '3'
+
+volumes:
+  data-postgres:
+  data-opennms:
+  data-config:
+services:
+
+
+#service for postgres container
+
+  database:
+    image: postgres:15
+    container_name: db
+    environment:
+      TZ: 'America/New_York'
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'my-postgres-password'
+    volumes:
+      - 'data-postgres:/var/lib/postgresql/data'
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    ports:
+      - '5432:5432/tcp'
+#--------------------------------------------------------------------------------------------
+  opennms:
+    image: opennms/horizon:33.0.2
+    container_name: opennms
+    environment:
+      TZ: 'America/New_York'
+      POSTGRES_HOST: '172.20.0.2'
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: 'postgres'
+      POSTGRES_PASSWORD: 'my-postgres-password'
+      OPENNMS_DBNAME: 'opennms-core-db'
+      OPENNMS_DBUSER: 'opennms'
+      OPENNMS_DBPASS: 'my-opennms-db-password'
+    volumes:
+      - data-opennms:/opennms-data
+      - data-config:/opt/opennms/etc
+    command: ["-s"]
+    ports:
+      - '8980:8980/tcp'
+      - '8101:8101/tcp'
+    healthcheck:
+      test: [ 'CMD', 'curl', '-f', '-I', 'http://localhost:8980/opennms/login.jsp' ]
+      interval: 1m
+      timeout: 5s
+      retries: 3
+    links:
+      - database
