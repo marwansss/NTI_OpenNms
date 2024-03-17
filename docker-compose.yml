@@ -31,7 +31,8 @@ services:
     container_name: opennms
     environment:
       TZ: 'America/New_York'
-      POSTGRES_HOST: '172.20.0.2'
+      #put your postgres container ip Here by using docker inspect <postgres-container-name> | grep -i ipadd
+      POSTGRES_HOST: '172.20.0.2' #this is example of my container ip address
       POSTGRES_PORT: 5432
       POSTGRES_USER: 'postgres'
       POSTGRES_PASSWORD: 'my-postgres-password'
