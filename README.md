@@ -16,6 +16,7 @@ A Docker Compose file has been meticulously configured to define container speci
 Enhancements
 Persistence Volume: Implemented for PostgreSQL data backups to ensure data integrity.
 Port Mapping: Configured to facilitate external access to the OpenNMS application from the host machine.
+
 Future Plans
 We are preparing to orchestrate our deployment using Kubernetes for advanced container management, scalability, and automation, aligning with industry standards.
 
