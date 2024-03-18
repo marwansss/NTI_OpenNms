@@ -1,4 +1,4 @@
-                                                                                  OpenNMS Project Deployment
+                                                     OpenNMS Project Deployment
 
 This repository contains the deployment configuration for our OpenNMS project, which utilizes a PostgreSQL database. The deployment is orchestrated into two containers: one for the OpenNMS service and the other for the PostgreSQL database service.
 
