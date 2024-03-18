@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgresdb-deployment
+  labels:
+    app: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+      - name: postgres-pod
+        image: postgres:15
+        ports:
+        - containerPort: 5432
+        env:
+           - name: TZ 
+             valueFrom: 
+               secretKeyRef:
+                 name: opennms-secret
+                 key: tz
+
+           - name: POSTGRES_USER
+             valueFrom: 
+               secretKeyRef:
+                 name: opennms-secret
+                 key: postgres-user
+
+           - name: POSTGRES_PASSWORD 
+             valueFrom: 
+               secretKeyRef:
+                 name: opennms-secret
+                 key: postgres-password
+
+        volumeMounts:
+          - name: data-postgres
+            mountPath: '/var/lib/postgresql/data'
+      volumes:
+        - name: data-postgres
+          hostPath:
+            path: '/home/maro/db-backup'
+            type: DirectoryOrCreate
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+
+

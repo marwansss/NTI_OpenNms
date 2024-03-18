@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: opennms-deployment
+  labels:
+    app: opennms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: opennms
+  template:
+    metadata:
+      labels:
+        app: opennms
+    spec:
+      containers:
+      - name: opennms-pod
+        image: opennms/horizon:33.0.2
+        ports:
+          - containerPort: 8980
+          - containerPort: 8101
+        env:
+           - name: TZ 
+             valueFrom: 
+               secretKeyRef:
+                 name: opennms-secret
+                 key: tz
+
+           - name: POSTGRES_USER
+             valueFrom: 
+               secretKeyRef:
+                 name: opennms-secret
+                 key: postgres-user
+
+           - name: POSTGRES_PASSWORD 
+             valueFrom: 
+               secretKeyRef:
+                 name: opennms-secret
+                 key: postgres-password
+
+           - name: OPENNMS_DBNAME 
+             valueFrom: 
+               secretKeyRef:
+                 name: opennms-secret
+                 key: opennms-dbname
+
+           - name: OPENNMS_DBUSER
+             valueFrom: 
+               secretKeyRef:
+                 name: opennms-secret
+                 key: opennms-dbuser
+
+           - name: OPENNMS_DBPASS 
+             valueFrom: 
+               secretKeyRef:
+                 name: opennms-secret
+                 key: opennms-dbpass
+           #set postgres-service to allow communication
+           - name: POSTGRES_HOST
+             valueFrom: 
+               configMapKeyRef:
+                 name: opennms-config
+                 key: database-url
+        volumeMounts:
+          - name: data-opennms
+            mountPath: /opennms-data
+          - name: data-config
+            mountPath: /opt/opennms/etc
+      volumes:
+        - name: data-opennms
+          hostPath:
+            path: '/home/maro/data-opennms'
+            type: DirectoryOrCreate
+        - name: data-config
+          hostPath:
+            path: '/home/maro/data-config'
+            type: DirectoryOrCreate
+
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: opennms-expose-service
+spec:
+  type: NodePort
+  selector:
+    app: opennms
+  ports:
+    - port: 8980
+      targetPort: 8980
+      nodePort: 30000
+      name: port-8980
+
+    - port: 8101
+      targetPort: 8101
+      nodePort: 30001
+      name: port-8101
